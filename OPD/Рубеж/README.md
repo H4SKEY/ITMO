@@ -1,1 +1,94 @@
+-----------------------------------------------ВАРИАНТ РУБЕЖКИ----------------------------
 
+![image](https://github.com/user-attachments/assets/35280267-1f9a-4878-841a-18f3915324ac)
+
+----------------------------------------------------КОД-----------------------------------
+
+ORG 0x400
+max1: WORD 0
+max2: WORD 0
+
+curr_num: WORD $arr
+tmp: WORD ?
+curr_ind: WORD 0x3
+tmp_ind: WORD ?
+arr_el: WORD 13
+mask: WORD 0xFFE0
+neg_num: WORD 0x8000
+
+START: 
+  LD (curr_num)+
+  ST tmp
+  LD curr_ind
+  INC
+  ST curr_ind
+  JUMP KR4
+CONTINUE_START:
+  LD tmp
+  JUMP CHECK_RAZR
+AFTER_CHECK_RAZR:
+  ADD tmp
+  CMP max1
+  BNS SKIP
+  BZS MAX2
+  ST max1
+  LD (curr_num)+
+  ST max2
+  JUMP CONTINUE
+  
+MAX2:
+  LD (curr_num)+
+  CMP max2
+  BNS CONTINUE
+  ST max2
+  JUMP CONTINUE
+
+CHECK_RAZR:
+  AND mask
+  BZS AFTER_CHECK_RAZR
+  LD neg_num
+  JUMP AFTER_CHECK_RAZR
+  
+KR4:
+  SUB #0x4
+  CMP #0x0
+  BZS CONTINUE_START
+  BNS SKIP
+  JUMP KR4
+
+SKIP:
+  LD (curr_num)+
+CONTINUE:
+  LOOP arr_el
+  JUMP START
+
+HLT
+
+ORG 0x6c6
+arr:
+WORD 0x000E
+WORD 0X0021 ; индекс 4 ответ
+WORD 0x0001
+WORD 0x0001
+WORD 0x0001
+WORD 0x0002
+WORD 0x0001
+WORD 0x0003
+WORD 0x001F
+WORD 0xFFFF ; индекс 8 
+WORD 0x0001
+WORD 0x0004
+WORD 0x0001
+WORD 0x0005
+WORD 0x0001
+WORD 0x0006
+WORD 0x0019 
+WORD 0xFEAB ; индекс 12
+WORD 0x0001
+WORD 0x0007
+WORD 0x0001
+WORD 0x0008
+WORD 0x0001
+WORD 0x0009
+WORD 0x0006 
+WORD 0x1343 ; индекс 16
