@@ -1,0 +1,26 @@
+/**
+ * Команда добавления если элемент минимальный
+ */
+public class AddIfMinCommand extends AbstractCommand {
+    public AddIfMinCommand(CollectionManager collectionManager, InputManager inputManager) {
+        super(collectionManager, inputManager);
+    }
+
+    @Override
+    public void execute(String[] args) {
+        int newId = collectionManager.getTickets().stream()
+                .mapToInt(Ticket::getId)
+                .max()
+                .orElse(0) + 1;
+
+        Ticket newTicket = inputManager.readTicket(newId);
+        Ticket minTicket = collectionManager.getMinTicket();
+
+        if (minTicket == null || newTicket.compareTo(minTicket) < 0) {
+            collectionManager.addTicket(newTicket);
+            System.out.println("Элемент добавлен (ID: " + newId + ")");
+        } else {
+            System.out.println("Элемент не является минимальным, добавление отменено");
+        }
+    }
+}
