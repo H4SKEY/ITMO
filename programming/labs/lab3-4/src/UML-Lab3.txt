@@ -1,0 +1,190 @@
+@startuml
+
+skinparam linetype ortho
+
+package interfaces {
+    interface Eatable {
+        void eat(Food food)
+    }
+
+    interface Firearms {
+        void shoot()
+        void reload()
+    }
+
+    interface Fishable {
+        void fish()
+    }
+
+    interface Smellable {
+        void smells()
+    }
+
+    interface Swimable {
+        void swim()
+    }
+
+    interface Sayable {
+        void say()
+    }
+}
+
+package persons  {
+    abstract class Person {
+        - String name;
+        - double height;
+        - int age;
+        - int weight;
+        - Gender gender;
+
+        + Person()
+        + Person(String name, double height, int age, int weight, Gender gender)
+        + {abstract} void eat(Food food)
+
+        + String getName()
+        + void setName(String name)
+        + double getHeight()
+        + void setHeight(double height)
+        + int getAge()
+        + void setAge(int age)
+        + int getWeight()
+        + void setWeight(int weight)
+        + Gender getGender()
+        + void setGender(Gender gender)
+        + String toString()
+        + int hashCode()
+        + boolean equals(Object obj)
+        + void say()
+    }
+
+    class Moor extends Person {
+        + void eat(Food food)
+        + Moor()
+        + Moor(String name, double height, int age, int weight, Gender gender)
+        + void say()
+    }
+
+    class MainHero extends Person {
+        + void eat(Food food)
+        + MainHero()
+        + MainHero(String name, double height, int age, int weight, Gender gender)
+        + void say()
+    }
+
+    class Angler extends Person {
+        + void eat(Food food)
+        + void fish()
+        + Angler()
+        + Angler(String name, double height, int age, int weight, Gender gender)
+        + void say()
+    }
+
+    enum Gender {
+        - String title
+        - Gender(String title)
+        + String getTitle()
+    }
+}
+
+package foods {
+    abstract class Food {
+        - String name
+        - double proteins;
+        - double fats;
+        - double carbohydrates;
+        - double calorie;
+        - int weight;
+
+        + Food()
+        + {abstract} void smells()
+        + Food(String name, double proteins, double fats, double carbohydrates, double calorie, int weight)
+
+        + String getName()
+        + void setName(String name)
+        + double getProteins()
+        + void setProteins(double proteins)
+        + double getFats()
+        + void setFats(double fats)
+        + double getCarbohydrates()
+        + void setCarbohydrates(double carbohydrates)
+        + double getCalorie()
+        + void setCalorie(double calorie)
+        + int getWeight()
+        + void setWeight(int weight)
+
+        + String toString()
+        + int hashCode()
+        + boolean equals()
+    }
+
+    class Sandwich extends Food {
+        + void smells()
+        + Sandwich()
+        + Sandwich(String name, double proteins, double fats, double carbohydrates, double calorie, int weight)
+    }
+
+    class Preserves extends Food {
+        + void smells()
+        + Preserves()
+        + Preserves(String name, double proteins, double fats, double carbohydrates, double calorie, int weight)
+    }
+
+    class Fish extends Food {
+        + void smells()
+        + Fish()
+        + Fish(String name, double proteins, double fats, double carbohydrates, double calorie, int weight)
+    }
+}
+
+class Gun {
+    - int capacity;
+    - int bulletNow;
+
+    + void shoot()
+    + void reload()
+    + Gun()
+    + Gun(int capacity, int bulletNow)
+
+    + int getCapacity
+    + void setCapacity(int capacity) throws IllegalGunCapacity
+    + int getBulletNow()
+    + void setBulletNow(int bulletNow)
+}
+
+class Longboat {
+    <<record>>
+    + void swim()
+    + Material material
+    + int weight
+    + double lenght
+    + int capacity
+}
+
+enum Material {
+    - String title
+    - Material(String title)
+    + String getTitle()
+}
+
+package exceptions {
+    class IllegalGunCapacity extends Exception {
+        + String getMessage()
+    }
+}
+
+class Main {
+    + <<static>> void main(String[] args)
+}
+
+Angler ..|> Fishable
+Person ..|> Eatable
+Gun ..|> Firearms
+Food ..|> Smellable
+Longboat ..|> Swimable
+Eatable ..> Food
+Person ..> Food
+Person --> Gender
+Longboat --> Material
+Person ..|> Sayable
+
+@enduml
